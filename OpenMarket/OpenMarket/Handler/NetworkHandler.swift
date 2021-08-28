@@ -40,8 +40,12 @@ struct NetworkHandler {
             }
         }
     }
+    let urlSession: URLSessionProtocol
+    static let shared = NetworkHandler(urlSession: URLSession(configuration: .default))
     
-    static let shared: URLSession = URLSession(configuration: .default)
+    init(urlSession: URLSessionProtocol) {
+        self.urlSession = urlSession
+    }
     
     func configureRequest(from api: RequestAPI) throws -> URLRequest {
         guard let url = URL(string: OpenMarketInfo.baseURL + api.path) else {
@@ -55,7 +59,7 @@ struct NetworkHandler {
     }
     
     func request(bundle request: URLRequest, completion: @escaping (Result<Data, Error>) -> ()) {
-        let dataTask = NetworkHandler.shared.dataTask(with: request) { data, response, error in
+        let dataTask = urlSession.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 completion(.failure(NetworkingManagerError.failRequestByError))
                 return
