@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct NetworkingManager {
+struct NetworkHandler {
     private enum NetworkingManagerError: Error {
         case failMakingURL
         case failRequestByError
@@ -41,13 +41,7 @@ struct NetworkingManager {
         }
     }
     
-    private let session: URLSessionProtocol
-    private let parsingManager: ParsingManager
-
-    init(session: URLSessionProtocol, parsingManager: ParsingManager) {
-        self.session = session
-        self.parsingManager = parsingManager
-    }
+    static let shared: URLSession = URLSession(configuration: .default)
     
     func configureRequest(from api: RequestAPI) throws -> URLRequest {
         guard let url = URL(string: OpenMarketInfo.baseURL + api.path) else {
@@ -61,7 +55,7 @@ struct NetworkingManager {
     }
     
     func request(bundle request: URLRequest, completion: @escaping (Result<Data, Error>) -> ()) {
-        let dataTask = session.dataTask(with: request) { data, response, error in
+        let dataTask = NetworkHandler.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 completion(.failure(NetworkingManagerError.failRequestByError))
                 return
