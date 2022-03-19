@@ -104,6 +104,4 @@ A :
 </div></details>
 <br>
 
-[팀 회고](https://github.com/keeplo/ios-open-market/blob/main/Group_README.md)
-
-실시간 데이터 변화를 인지하기 위해서 각 화면에 접근시 매번 데이터를 업데이트하는게 좋다고 생각함 (서버와 동기화), `id` 정보만 전달
+[팀 회고 README](https://github.com/keeplo/ios-open-market/blob/main/Group_README.md)
